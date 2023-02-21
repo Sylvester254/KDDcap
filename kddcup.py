@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import confusion_matrix  
 
 
 data = pd.read_csv('kddcup.data_10_percent_corrected',
@@ -67,15 +68,17 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
 rf_classifier.fit(X_train, y_train)
+
+# predicting the test results
 y_pred = rf_classifier.predict(X_test)
 
 
 """_summary_
     Evaluate the performance of the model
 """
-print('Accuracy:', accuracy_score(y_test, y_pred))
+print('Accuracy: %.3f', accuracy_score(y_test, y_pred))
 
-print('precision:', precision_score(y_test,
+print('precision: %.3f', precision_score(y_test,
                                     y_pred, average='weighted'))
 print('recall:', recall_score(y_test, y_pred, average='weighted'))
 
@@ -84,3 +87,9 @@ print('normal_precision:', precision_score(y_test, y_pred,
                                            average='weighted'))
 print('normal_recall:', recall_score(y_test, y_pred,
                                      labels=['normal'], average='weighted'))
+
+
+
+#Creating the Confusion matrix  
+cm= confusion_matrix(y_test, y_pred) 
+print(cm) 
